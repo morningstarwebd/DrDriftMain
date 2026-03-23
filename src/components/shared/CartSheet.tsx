@@ -81,7 +81,7 @@ export const CartSheet: React.FC<CartSheetProps> = ({ isOpen, onClose, onCheckou
                       </div>
                     </div>
                     <div className="text-right flex flex-col justify-end pb-1">
-                      <p className="font-bold text-lg">₹{item.price * item.quantity}</p>
+                      <p className="font-bold text-lg">RS {item.price * item.quantity}</p>
                     </div>
                   </div>
                 ))
@@ -92,19 +92,19 @@ export const CartSheet: React.FC<CartSheetProps> = ({ isOpen, onClose, onCheckou
               <div className="p-6 border-t bg-white space-y-4">
                 <div className="space-y-2">
                   <div className="flex justify-between text-muted-foreground">
-                    <span>Subtotal</span><span>₹{subtotal}</span>
+                    <span>Subtotal</span><span>RS {subtotal}</span>
                   </div>
                   <div className="flex justify-between text-muted-foreground">
                     <span>Delivery</span>
-                    <span>{deliveryCharge === 0 ? 'FREE' : `₹${deliveryCharge}`}</span>
+                    <span>{deliveryCharge === 0 ? 'FREE' : `RS ${deliveryCharge}`}</span>
                   </div>
                   {deliveryCharge > 0 && (
                     <p className="text-[10px] text-primary text-center bg-primary/5 py-1 rounded-md">
-                      Free delivery on orders above ₹1000!
+                      Free delivery on orders above RS 1000!
                     </p>
                   )}
                   <div className="flex justify-between text-2xl font-bold pt-2 border-t font-heading">
-                    <span>Total</span><span>₹{total}</span>
+                    <span>Total</span><span>RS {total}</span>
                   </div>
                 </div>
                 <button onClick={onCheckout} className="w-full btn-primary py-4 text-lg shadow-xl shadow-primary/20">

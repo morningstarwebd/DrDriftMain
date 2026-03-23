@@ -17,7 +17,6 @@ export default function MobileHeader({ onOpenCart }: Props) {
             <div className="flex items-center justify-between px-4 h-14">
                 {/* Logo */}
                 <a href="#hero" className="flex items-center gap-1.5">
-                    <span className="text-xl">✨</span>
                     <span className="font-heading text-lg font-bold text-white">
                         Dr.<span className="text-primary-light">Drift</span>
                     </span>
@@ -36,6 +35,7 @@ export default function MobileHeader({ onOpenCart }: Props) {
                         </svg>
                     </button>
                     <button
+                        id="mobile-header-cart"
                         onClick={onOpenCart}
                         className="w-9 h-9 rounded-full flex items-center justify-center relative"
                         style={{ background: 'rgba(255,255,255,0.18)' }}

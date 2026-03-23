@@ -2,11 +2,12 @@
 
 import React, { useState } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { X, ShoppingCart, Minus, Plus, ChevronLeft, ChevronRight } from 'lucide-react';
+import { X, ShoppingCart, Minus, Plus, ChevronLeft, ChevronRight, Check } from 'lucide-react';
 import { Product } from '@/data/products';
 import { useCart } from '@/context/CartContext';
 import { clsx, type ClassValue } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { createPortal } from 'react-dom';
 
 function cn(...inputs: ClassValue[]) {
   return twMerge(clsx(inputs));
@@ -23,19 +24,70 @@ export const ProductDetailDialog: React.FC<ProductDetailDialogProps> = ({ produc
   const [currentImage, setCurrentImage] = useState(0);
   const [selectedVariant, setSelectedVariant] = useState(0);
   const [quantity, setQuantity] = useState(1);
+  const [isAdded, setIsAdded] = useState(false);
+  const [flyingItem, setFlyingItem] = useState<{ id: string, src: string, startRect: DOMRect, endRect: DOMRect } | null>(null);
+  const [mounted, setMounted] = useState(false);
+
+  React.useEffect(() => {
+    setMounted(true);
+  }, []);
+
+  React.useEffect(() => {
+    if (isOpen && product) {
+      setCurrentImage(0);
+      setSelectedVariant(0);
+      setQuantity(1);
+      setIsAdded(false);
+    }
+  }, [isOpen, product]);
 
   if (!product) return null;
 
-  const handleAddToCart = () => {
+  const handleVariantChange = (idx: number) => {
+    setSelectedVariant(idx);
+    const sizeStr = `/${product.variants[idx].size.toLowerCase()}/`;
+    const imageIdx = product.images.findIndex(img => img.toLowerCase().includes(sizeStr));
+    if (imageIdx !== -1) {
+      setCurrentImage(imageIdx);
+    }
+  };
+
+  const handleAddToCart = (e: React.MouseEvent) => {
+    // Add fly-to-cart effect
+    const btnEl = e.currentTarget as HTMLElement;
+    const imgEl = btnEl.closest('.fixed')?.querySelector('img'); 
+    
+    // Find the visible cart target
+    let targetEl = document.getElementById('desktop-header-cart');
+    if (!targetEl || targetEl.getBoundingClientRect().width === 0) {
+      targetEl = document.getElementById('mobile-header-cart');
+    }
+    
+    if (imgEl && targetEl) {
+      const startRect = imgEl.getBoundingClientRect();
+      const endRect = targetEl.getBoundingClientRect();
+      
+      setFlyingItem({
+        id: Date.now().toString(),
+        src: product.images[currentImage],
+        startRect,
+        endRect
+      });
+      
+      setTimeout(() => setFlyingItem(null), 800);
+    }
+
     addToCart({
       id: product.id,
       name: product.name,
       variant: product.variants[selectedVariant].size,
       price: product.variants[selectedVariant].price,
       quantity: quantity,
-      image: product.images[0]
+      image: product.images[currentImage]
     });
-    onClose();
+
+    setIsAdded(true);
+    setTimeout(() => setIsAdded(false), 2000);
   };
 
   return (
@@ -57,7 +109,7 @@ export const ProductDetailDialog: React.FC<ProductDetailDialogProps> = ({ produc
           >
             <button 
               onClick={onClose}
-              className="absolute top-4 right-4 p-2 rounded-full bg-white/80 backdrop-blur-md shadow-md hover:bg-white z-10"
+              className="absolute top-4 right-4 p-2 rounded-full bg-white/80 backdrop-blur-md shadow-md hover:bg-white z-10 focus:outline-none"
             >
               <X className="w-6 h-6" />
             </button>
@@ -110,14 +162,14 @@ export const ProductDetailDialog: React.FC<ProductDetailDialogProps> = ({ produc
                 <span className="text-primary font-bold uppercase tracking-widest text-xs">{product.category} Cleaner</span>
                 <h2 className="text-3xl font-heading font-black mt-1 text-gray-800">{product.name}</h2>
                 
-                {/* Moved Size Selector ABOVE description */}
+                {/* Size Selector */}
                 <div className="mt-6">
                   <h4 className="font-semibold text-[11px] uppercase tracking-wider text-muted-foreground mb-3">Select Size</h4>
                   <div className="flex flex-wrap gap-2">
                     {product.variants.map((variant, idx) => (
                       <button 
                         key={idx}
-                        onClick={() => setSelectedVariant(idx)}
+                        onClick={() => handleVariantChange(idx)}
                         className={cn(
                           "px-5 py-2.5 rounded-xl border-2 transition-all font-semibold text-sm",
                           selectedVariant === idx 
@@ -125,7 +177,7 @@ export const ProductDetailDialog: React.FC<ProductDetailDialogProps> = ({ produc
                             : "border-muted hover:border-muted-foreground/30 text-gray-500"
                         )}
                       >
-                        {variant.size} — ₹{variant.price}
+                        {variant.size} — RS {variant.price}
                       </button>
                     ))}
                   </div>
@@ -160,21 +212,64 @@ export const ProductDetailDialog: React.FC<ProductDetailDialogProps> = ({ produc
                   <div className="flex flex-col items-end">
                     <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-0.5">Total</span>
                     <span className="text-2xl font-black text-primary leading-none">
-                        ₹{product.variants[selectedVariant].price * quantity}
+                        RS {product.variants[selectedVariant].price * quantity}
                     </span>
                   </div>
                 </div>
 
                 <button 
                   onClick={handleAddToCart}
-                  className="w-full btn-primary py-3.5 text-base shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-transform active:scale-[0.98]"
+                  className={cn(
+                    "w-full btn-primary py-3.5 text-base shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-all active:scale-[0.98]",
+                    isAdded ? "bg-green-500 text-white scale-[1.02]" : "bg-primary text-white"
+                  )}
                 >
-                  <ShoppingCart className="w-5 h-5" />
-                  Add to Cart
+                  {isAdded ? (
+                    <>
+                      <Check className="w-5 h-5 animate-in zoom-in" />
+                      Added!
+                    </>
+                  ) : (
+                    <>
+                      <ShoppingCart className="w-5 h-5" />
+                      Add to Cart
+                    </>
+                  )}
                 </button>
               </div>
             </div>
           </motion.div>
+          
+          {/* Fly-to-cart Animation Portal */}
+          {mounted && flyingItem && createPortal(
+            <motion.img 
+              key={flyingItem.id}
+              src={flyingItem.src}
+              initial={{ 
+                position: 'fixed',
+                left: flyingItem.startRect.left,
+                top: flyingItem.startRect.top,
+                width: flyingItem.startRect.width,
+                height: flyingItem.startRect.height,
+                opacity: 1,
+                zIndex: 999999,
+                pointerEvents: 'none',
+                borderRadius: '2rem',
+                boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+              }}
+              animate={{
+                left: flyingItem.endRect.left + flyingItem.endRect.width / 2 - 20,
+                top: flyingItem.endRect.top + flyingItem.endRect.height / 2 - 20,
+                width: 40,
+                height: 40,
+                opacity: 0.3,
+                scale: 0.5
+              }}
+              transition={{ duration: 0.7, ease: [0.32, 0.72, 0, 1] }}
+              className="object-contain mix-blend-multiply bg-white"
+            />,
+            document.body
+          )}
         </>
       )}
     </AnimatePresence>

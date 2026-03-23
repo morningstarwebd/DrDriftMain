@@ -79,9 +79,9 @@ export const ProductSection: React.FC<ProductSectionProps> = ({ onOpenDetail }) 
               whileInView={{ opacity: 1, scale: 1 }}
               transition={{ delay: idx * 0.1 }}
               key={product.id}
-              className="group bg-white rounded-[2.5rem] overflow-hidden border border-muted/50 hover:border-primary/20 hover:shadow-2xl hover:shadow-primary/5 transition-all"
+              className="group bg-white rounded-[2.5rem] overflow-hidden border border-muted/50 hover:border-primary/20 hover:shadow-2xl hover:shadow-primary/5 transition-all flex flex-col h-full"
             >
-              <div className="relative aspect-square bg-muted/30 p-10 overflow-hidden cursor-pointer" onClick={() => onOpenDetail(product)}>
+              <div className="relative aspect-square bg-muted/30 p-10 overflow-hidden cursor-pointer shrink-0" onClick={() => onOpenDetail(product)}>
                 <img 
                   src={product.images[0]} 
                   alt={product.name} 
@@ -99,18 +99,18 @@ export const ProductSection: React.FC<ProductSectionProps> = ({ onOpenDetail }) 
                 </div>
               </div>
 
-              <div className="p-8 space-y-4">
-                <div>
+              <div className="p-8 flex flex-col flex-1">
+                <div className="flex-1">
                     <h3 className="text-2xl font-heading font-bold">{product.name}</h3>
                     <p className="text-sm text-muted-foreground line-clamp-2 mt-2 leading-relaxed">
                     {product.shortDescription}
                     </p>
                 </div>
                 
-                <div className="flex items-center justify-between pt-4 border-t border-muted">
+                <div className="flex items-center justify-between pt-4 border-t border-muted mt-6">
                     <div>
                         <span className="text-xs text-muted-foreground block uppercase font-bold tracking-tighter">Starts at</span>
-                        <span className="text-2xl font-black text-primary">₹{product.variants[0].price}</span>
+                        <span className="text-2xl font-black text-primary">RS {product.variants[0].price}</span>
                     </div>
                     <button 
                         onClick={() => onOpenDetail(product)}

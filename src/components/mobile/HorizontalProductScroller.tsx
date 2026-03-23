@@ -1,9 +1,11 @@
 'use client';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+import { createPortal } from 'react-dom';
 import { Product } from '@/data/products';
 import { useCart } from '@/context/CartContext';
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { motion } from 'framer-motion';
 
 interface Props {
     title: string;
@@ -14,9 +16,36 @@ interface Props {
 export default function HorizontalProductScroller({ title, products, onProductClick }: Props) {
     const { addToCart } = useCart();
     const [addedItems, setAddedItems] = useState<Record<string, boolean>>({});
+    const [flyingItem, setFlyingItem] = useState<{ id: string, src: string, startRect: DOMRect, endRect: DOMRect } | null>(null);
+    const [mounted, setMounted] = useState(false);
+
+    useEffect(() => {
+        setMounted(true);
+    }, []);
 
     const handleAddToCart = (e: React.MouseEvent, product: Product, price: number, size: string, image: string) => {
         e.stopPropagation();
+        
+        // Fly-to-cart animation logic
+        const buttonEl = e.currentTarget as HTMLElement;
+        const cardEl = buttonEl.closest('.flex-shrink-0');
+        const imgEl = cardEl?.querySelector('img');
+        const targetEl = document.getElementById('mobile-header-cart');
+        
+        if (imgEl && targetEl) {
+            const startRect = imgEl.getBoundingClientRect();
+            const endRect = targetEl.getBoundingClientRect();
+            
+            setFlyingItem({
+                id: Date.now().toString(),
+                src: image,
+                startRect,
+                endRect
+            });
+            
+            setTimeout(() => setFlyingItem(null), 700);
+        }
+
         addToCart({
             id: product.id,
             name: product.name,
@@ -34,7 +63,12 @@ export default function HorizontalProductScroller({ title, products, onProductCl
     if (products.length === 0) return null;
 
     return (
-        <div className="lg:hidden mb-6">
+        <motion.div 
+            initial={{ opacity: 0, y: 30 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            className="lg:hidden mb-6"
+        >
             <div className="flex items-center justify-between px-4 mb-3">
                 <h3 className="font-heading font-bold text-gray-800 text-base">{title}</h3>
                 <button className="text-primary text-xs font-semibold">View All →</button>
@@ -67,7 +101,7 @@ export default function HorizontalProductScroller({ title, products, onProductCl
                                 </div>
                                 <div className="flex items-center justify-between mt-3">
                                     <span className="font-heading font-bold text-primary text-sm flex items-center">
-                                        ₹{price.toLocaleString()}
+                                        RS {price.toLocaleString()}
                                     </span>
                                     <button
                                         onClick={e => handleAddToCart(e, product, price, size, image)}
@@ -95,6 +129,37 @@ export default function HorizontalProductScroller({ title, products, onProductCl
                     );
                 })}
             </div>
-        </div>
+            
+            {/* Fly-to-cart Animation Portal */}
+            {mounted && flyingItem && createPortal(
+                <motion.img 
+                    key={flyingItem.id}
+                    src={flyingItem.src}
+                    initial={{ 
+                        position: 'fixed',
+                        left: flyingItem.startRect.left,
+                        top: flyingItem.startRect.top,
+                        width: flyingItem.startRect.width,
+                        height: flyingItem.startRect.height,
+                        opacity: 1,
+                        zIndex: 999999,
+                        pointerEvents: 'none',
+                        borderRadius: '1rem',
+                        boxShadow: '0 20px 25px -5px rgba(0, 0, 0, 0.1), 0 10px 10px -5px rgba(0, 0, 0, 0.04)'
+                    }}
+                    animate={{
+                        left: flyingItem.endRect.left + flyingItem.endRect.width / 2 - 15, // center on target
+                        top: flyingItem.endRect.top + flyingItem.endRect.height / 2 - 15,
+                        width: 30, // smaller size at target
+                        height: 30,
+                        opacity: 0.2, // fade out slightly at the end
+                        scale: 0.5
+                    }}
+                    transition={{ duration: 0.6, ease: [0.32, 0.72, 0, 1] }} // smooth ease out
+                    className="object-contain mix-blend-multiply bg-white"
+                />,
+                document.body
+            )}
+        </motion.div>
     );
 }

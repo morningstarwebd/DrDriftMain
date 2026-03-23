@@ -74,7 +74,7 @@ export default function MobileBottomNav({ onNavigate, onOpenCart }: Props) {
                         {active === tab.id && (
                             <span className="absolute -top-0 w-8 h-0.5 bg-[#0039A6] rounded-full" />
                         )}
-                        <span className="relative">
+                        <span className="relative" id={tab.id === 'cart' ? "mobile-bottom-cart" : undefined}>
                             {tab.icon}
                             {tab.id === 'cart' && totalItems > 0 && (
                                 <span className="absolute -top-1.5 -right-2 bg-[#ffc107] text-[#0039A6] text-[10px] font-bold w-4 h-4 rounded-full flex items-center justify-center border border-white">

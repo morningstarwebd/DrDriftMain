@@ -56,7 +56,7 @@ I want to place an order.
 *Order Details:*
 ${generateOrderSummary()}
 
-*Total:* ₹${total}
+*Total:* RS ${total}
 *Payment Method:* ${method === 'upi' ? 'UPI (Paid)' : 'Order on WhatsApp'}
 
 *Delivery Address:*
@@ -139,15 +139,15 @@ ${formData.address}, ${formData.city} - ${formData.pincode}`;
                           <p className="text-sm text-muted-foreground">{item.variant} x {item.quantity}</p>
                         </div>
                         <div className="text-right">
-                          <p className="font-bold">₹{item.price * item.quantity}</p>
+                          <p className="font-bold">RS {item.price * item.quantity}</p>
                         </div>
                       </div>
                     ))}
                   </div>
                   <div className="p-6 rounded-2xl bg-primary/5 space-y-3">
-                    <div className="flex justify-between"><span>Subtotal</span><span>₹{subtotal}</span></div>
-                    <div className="flex justify-between"><span>Delivery</span><span>{deliveryCharge === 0 ? 'FREE' : `₹${deliveryCharge}`}</span></div>
-                    <div className="flex justify-between text-xl font-bold pt-3 border-t"><span>Total</span><span>₹{total}</span></div>
+                    <div className="flex justify-between"><span>Subtotal</span><span>RS {subtotal}</span></div>
+                    <div className="flex justify-between"><span>Delivery</span><span>{deliveryCharge === 0 ? 'FREE' : `RS ${deliveryCharge}`}</span></div>
+                    <div className="flex justify-between text-xl font-bold pt-3 border-t"><span>Total</span><span>RS {total}</span></div>
                   </div>
                   <button onClick={() => setStep(2)} className="w-full btn-primary py-4">Continue to Address</button>
                 </div>
@@ -222,7 +222,7 @@ ${formData.address}, ${formData.city} - ${formData.pincode}`;
                     >
                       <canvas ref={qrRef} className="rounded-xl shadow-lg bg-white p-2" />
                       <div>
-                        <p className="text-sm text-muted-foreground">Scan to pay <strong>₹{total}</strong></p>
+                        <p className="text-sm text-muted-foreground">Scan to pay <strong>RS {total}</strong></p>
                         <p className="font-mono font-bold mt-1">drdrift@upi</p>
                       </div>
                       <button onClick={() => handleWhatsAppOrder('upi')} className="w-full btn-primary py-4">✅ I Have House Paid</button>

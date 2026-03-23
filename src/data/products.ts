@@ -22,14 +22,17 @@ export const products: Product[] = [
     shortDescription: "High-performance liquid for sparkling clean utensils.",
     variants: [
       { size: "250ml", price: 72 },
-      { size: "500ml", price: 135 }, // Placeholder price based on trend
       { size: "5L", price: 899 }
     ],
     images: [
       "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Dishwasher/250ml/ChatGPT%20Image%20Mar%2018,%202026,%2003_36_48%20AM.png",
       "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Dishwasher/250ml/Whisk_12b4b58872c79e493c84d3a30cc2d523eg.png",
+      "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Dishwasher/250ml/Whisk_8b8184ccf15b942b4b843420f34641dfeg.png",
+      "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Dishwasher/250ml/Whisk_8c329a1d998e0e8a3f4462b55ff27fb9eg.png",
       "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Dishwasher/250ml/Whisk_db9d42c0f0663a7881247690560c6b0cdr.png",
-      "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Dishwasher/5l/Whisk_5ab8e92917f2232ac2643dde314c53a2dr.png"
+      "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Dishwasher/5l/Whisk_5ab8e92917f2232ac2643dde314c53a2dr.png",
+      "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Dishwasher/5l/Whisk_a1a6f88a11de093a0784f217c8d2dd2bdr.png",
+      "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Dishwasher/5l/Whisk_e6307a7d8f9fc68a33145f996f9e264beg.png"
     ]
   },
   {
@@ -45,8 +48,10 @@ export const products: Product[] = [
     images: [
       "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Floor%20cleaner/500ml/Whisk_249ebd4759330f393264fec145402579eg.png",
       "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Floor%20cleaner/500ml/Whisk_58be3c5665c96b382434998dacaaf4c1eg.png",
+      "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Floor%20cleaner/500ml/Whisk_dbaff5c62e24d99b3444a1eec3e98a34eg.png",
       "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Floor%20cleaner/5l/Whisk_55751352e8a31f6a4ee49f0a1d3fffb0dr.png",
-      "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Floor%20cleaner/5l/Whisk_ccac942e33f6ba685ab417a8f2b127b8eg.png"
+      "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Floor%20cleaner/5l/Whisk_ccac942e33f6ba685ab417a8f2b127b8eg.png",
+      "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Floor%20cleaner/5l/Whisk_ddb30a13b62c30e92a249861edb9022aeg.png"
     ]
   },
   {
@@ -61,9 +66,12 @@ export const products: Product[] = [
     ],
     images: [
       "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Toilet%20cleaner/500ml/Whisk_23e48edffcb530489ce44ca4ca3d64f3eg.png",
+      "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Toilet%20cleaner/500ml/Whisk_7051fada0e70e238c3949ad8468bb7adeg.png",
       "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Toilet%20cleaner/500ml/Whisk_c74d9273340930aa0e54f1fe5b521041eg.png",
       "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Toilet%20cleaner/5l/Whisk_f3e343fa074b487ad364388a0e8bf0a4eg.png",
-      "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Toilet%20cleaner/5l/Whisk_85f5e1f3aff218fa8904c8f0d832a253eg.png"
+      "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Toilet%20cleaner/5l/Whisk_017a953641e673b92b54e7c9307a847aeg.png",
+      "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Toilet%20cleaner/5l/Whisk_85f5e1f3aff218fa8904c8f0d832a253eg.png",
+      "https://fiqeuvdxsqupjdgqcpnj.supabase.co/storage/v1/object/public/asset/product%20images/Toilet%20cleaner/5l/Whisk_cf8356ab15941db98934c315540c11d8eg.png"
     ]
   }
 ];

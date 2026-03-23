@@ -70,6 +70,7 @@ export const Header: React.FC<{ onOpenCart: () => void }> = ({ onOpenCart }) => 
               <MessageCircle className="w-5 h-5" />
             </a>
             <button 
+              id="desktop-header-cart"
               onClick={onOpenCart}
               className={cn(
                 "relative p-3 rounded-full transition-all bg-primary/10 text-primary hover:bg-primary hover:text-white",

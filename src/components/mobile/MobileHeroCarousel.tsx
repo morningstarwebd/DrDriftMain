@@ -60,20 +60,20 @@ export default function MobileHeroCarousel() {
                         padding: '0 20px 28px',
                     }}
                 >
-                    <span style={{ fontSize: 24, display: 'block', marginBottom: 8 }}>✨</span>
                     <h1
                         style={{
-                            fontFamily: "'Outfit', sans-serif",
-                            fontWeight: 800,
+                            fontFamily: "'Playfair Display', serif",
+                            fontWeight: 900,
                             color: '#fff',
-                            lineHeight: 1.1,
-                            letterSpacing: '-0.02em',
-                            fontSize: 'clamp(24px, 8vw, 34px)',
-                            margin: '0 0 8px',
+                            lineHeight: 1.05,
+                            letterSpacing: '-0.04em',
+                            fontSize: 'clamp(32px, 10vw, 42px)',
+                            margin: '0 0 10px',
                             padding: 0,
                         }}
                     >
-                        Deep Clean.<br/>Better Life.
+                        Deep Clean.<br/>
+                        <span style={{ fontStyle: 'italic', color: 'var(--primary)' }}>Better Life.</span>
                     </h1>
                     <p
                         style={{

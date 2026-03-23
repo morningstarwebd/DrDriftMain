@@ -2,6 +2,7 @@
 
 import { clsx } from 'clsx';
 import { twMerge } from 'tailwind-merge';
+import { motion } from 'framer-motion';
 
 interface IconCategoryStripProps {
     selectedCategory: string;
@@ -10,14 +11,20 @@ interface IconCategoryStripProps {
 
 export default function IconCategoryStrip({ selectedCategory, onSelectCategory }: IconCategoryStripProps) {
     const allCategories = [
-        { id: 'all', name: 'All', slug: 'all', icon: '✨' },
+        { id: 'all', name: 'All', slug: 'all', icon: '🫧' },
         { id: 'floor', name: 'Floor', slug: 'floor', icon: '🧹' },
         { id: 'dish', name: 'Dishwash', slug: 'dish', icon: '🍽️' },
         { id: 'toilet', name: 'Toilet', slug: 'toilet', icon: '🚽' },
     ];
 
     return (
-        <div id="m-categories" className="lg:hidden px-4 py-4">
+        <motion.div 
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.5 }}
+            id="m-categories" 
+            className="lg:hidden px-4 py-4"
+        >
             <h3 className="font-heading font-bold text-gray-800 text-base mb-3">Categories</h3>
             <div className="flex gap-3 overflow-x-auto no-scrollbar pb-2">
                 {allCategories.map(cat => (
@@ -38,6 +45,6 @@ export default function IconCategoryStrip({ selectedCategory, onSelectCategory }
                     </button>
                 ))}
             </div>
-        </div>
+        </motion.div>
     );
 }

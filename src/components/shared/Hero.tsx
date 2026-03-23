@@ -26,7 +26,7 @@ export const Hero: React.FC = () => {
         className="absolute inset-0 z-0"
       />
 
-      <div className="relative z-10 container-custom text-white text-center">
+      <div className="relative z-10 container-custom text-white text-center pb-20 md:pb-32">
         <motion.div 
           initial={{ opacity: 0, y: 30 }}
           animate={{ opacity: 1, y: 0 }}
