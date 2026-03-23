@@ -103,65 +103,76 @@ export const ProductDetailDialog: React.FC<ProductDetailDialogProps> = ({ produc
             </div>
 
             {/* Info Section */}
-            <div className="w-full md:w-1/2 p-6 md:p-10 overflow-y-auto">
-              <span className="text-primary font-bold uppercase tracking-widest text-xs">{product.category} Cleaner</span>
-              <h2 className="text-3xl font-heading font-bold mt-2">{product.name}</h2>
-              <p className="text-muted-foreground mt-4 leading-relaxed">
-                {product.description}
-              </p>
+            <div className="w-full md:w-1/2 flex flex-col h-[calc(100%-16rem)] md:h-auto overflow-hidden">
+              
+              {/* Scrollable Details */}
+              <div className="p-6 md:p-10 pb-2 md:pb-6 overflow-y-auto flex-1 no-scrollbar">
+                <span className="text-primary font-bold uppercase tracking-widest text-xs">{product.category} Cleaner</span>
+                <h2 className="text-3xl font-heading font-black mt-1 text-gray-800">{product.name}</h2>
+                
+                {/* Moved Size Selector ABOVE description */}
+                <div className="mt-6">
+                  <h4 className="font-semibold text-[11px] uppercase tracking-wider text-muted-foreground mb-3">Select Size</h4>
+                  <div className="flex flex-wrap gap-2">
+                    {product.variants.map((variant, idx) => (
+                      <button 
+                        key={idx}
+                        onClick={() => setSelectedVariant(idx)}
+                        className={cn(
+                          "px-5 py-2.5 rounded-xl border-2 transition-all font-semibold text-sm",
+                          selectedVariant === idx 
+                            ? "border-primary bg-primary/5 text-primary" 
+                            : "border-muted hover:border-muted-foreground/30 text-gray-500"
+                        )}
+                      >
+                        {variant.size} — ₹{variant.price}
+                      </button>
+                    ))}
+                  </div>
+                </div>
 
-              <div className="mt-8">
-                <h4 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground mb-4">Select Size</h4>
-                <div className="flex flex-wrap gap-3">
-                  {product.variants.map((variant, idx) => (
-                    <button 
-                      key={idx}
-                      onClick={() => setSelectedVariant(idx)}
-                      className={cn(
-                        "px-6 py-3 rounded-xl border-2 transition-all font-medium",
-                        selectedVariant === idx 
-                          ? "border-primary bg-primary/5 text-primary" 
-                          : "border-muted hover:border-muted-foreground/30 text-muted-foreground"
-                      )}
-                    >
-                      {variant.size} — ₹{variant.price}
-                    </button>
-                  ))}
+                <div className="mt-8 mb-4">
+                  <h4 className="font-semibold text-[11px] uppercase tracking-wider text-muted-foreground mb-3">Description</h4>
+                  <p className="text-muted-foreground text-sm leading-relaxed">
+                    {product.description}
+                  </p>
                 </div>
               </div>
 
-              <div className="mt-8 flex items-center justify-between">
-                <div>
-                  <h4 className="font-semibold text-sm uppercase tracking-wider text-muted-foreground mb-3">Quantity</h4>
-                  <div className="flex items-center gap-4 bg-muted/50 w-fit p-1 rounded-xl">
+              {/* Sticky Bottom Bar */}
+              <div className="p-4 px-6 md:p-10 pt-4 border-t border-muted/50 bg-white shadow-[0_-4px_20px_rgba(0,0,0,0.02)] shrink-0 z-10 w-full relative">
+                <div className="flex items-center justify-between mb-4">
+                  <div className="flex items-center gap-3 bg-gray-50 p-1 rounded-xl border border-muted/50">
                     <button 
                       onClick={() => setQuantity(q => Math.max(1, q - 1))}
-                      className="p-2 rounded-lg hover:bg-white transition-colors"
+                      className="p-2 rounded-lg hover:bg-white hover:shadow-sm text-gray-600 transition-all active:scale-95"
                     >
                       <Minus className="w-4 h-4" />
                     </button>
-                    <span className="w-8 text-center font-bold text-lg">{quantity}</span>
+                    <span className="w-6 text-center font-bold text-gray-800">{quantity}</span>
                     <button 
                       onClick={() => setQuantity(q => q + 1)}
-                      className="p-2 rounded-lg hover:bg-white transition-colors"
+                      className="p-2 rounded-lg hover:bg-white hover:shadow-sm text-gray-600 transition-all active:scale-95"
                     >
                       <Plus className="w-4 h-4" />
                     </button>
                   </div>
+                  <div className="flex flex-col items-end">
+                    <span className="text-[10px] text-muted-foreground font-bold uppercase tracking-wider mb-0.5">Total</span>
+                    <span className="text-2xl font-black text-primary leading-none">
+                        ₹{product.variants[selectedVariant].price * quantity}
+                    </span>
+                  </div>
                 </div>
-                <div className="text-right">
-                  <span className="text-sm text-muted-foreground block">Total Price</span>
-                  <span className="text-2xl font-bold">₹{product.variants[selectedVariant].price * quantity}</span>
-                </div>
-              </div>
 
-              <button 
-                onClick={handleAddToCart}
-                className="w-full mt-10 btn-primary py-4 text-lg shadow-lg shadow-primary/20"
-              >
-                <ShoppingCart className="w-5 h-5 mr-2" />
-                Add to Cart
-              </button>
+                <button 
+                  onClick={handleAddToCart}
+                  className="w-full btn-primary py-3.5 text-base shadow-lg shadow-primary/20 flex items-center justify-center gap-2 transition-transform active:scale-[0.98]"
+                >
+                  <ShoppingCart className="w-5 h-5" />
+                  Add to Cart
+                </button>
+              </div>
             </div>
           </motion.div>
         </>

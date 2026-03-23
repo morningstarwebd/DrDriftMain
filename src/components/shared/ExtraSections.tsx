@@ -59,7 +59,9 @@ const WhyDrDrift: React.FC = () => {
   return (
     <section id="why-us" className="section-padding bg-white relative overflow-hidden">
       <div className="container-custom">
-        <div className="grid lg:grid-cols-2 gap-16 items-center">
+        
+        {/* ================= DESKTOP VIEW ================= */}
+        <div className="hidden lg:grid grid-cols-2 gap-16 items-center">
           <div className="space-y-8">
             <span className="text-primary font-bold uppercase tracking-widest text-xs">The Dr. Drift Difference</span>
             <h2 className="text-5xl md:text-6xl font-heading font-black tracking-tight leading-[1.1]">
@@ -103,6 +105,53 @@ const WhyDrDrift: React.FC = () => {
             ))}
           </div>
         </div>
+
+        {/* ================= MOBILE VIEW ================= */}
+        <div className="flex flex-col lg:hidden space-y-8">
+          <div className="px-4 text-center">
+            <span className="text-primary font-bold uppercase tracking-widest text-[10px]">The Dr. Drift Difference</span>
+            <h2 className="text-4xl font-heading font-black tracking-tight leading-[1.2] mt-2">
+                Engineered for <br/>
+                <span className="text-primary">Superior Clean.</span>
+            </h2>
+            <p className="text-sm text-muted-foreground leading-relaxed mt-4">
+                We combine industrial-grade potency with consumer-safe formulations. Whether it's a grand hotel lobby or your kitchen floor, Dr. Drift ensures perfection.
+            </p>
+          </div>
+
+          <div className="flex overflow-x-auto gap-4 px-4 pb-4 snap-x snap-mandatory no-scrollbar -mx-4">
+            {/* Stat Card 1 */}
+            <div className="min-w-[280px] snap-center p-8 rounded-[2.5rem] bg-accent border border-primary/10 space-y-4 shrink-0 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+              <span className="text-5xl font-black text-primary font-heading">500+</span>
+              <p className="font-bold text-xl font-heading text-gray-800">Businesses Served</p>
+              <p className="text-sm text-muted-foreground leading-relaxed">From cafes to major hotel chains.</p>
+            </div>
+            
+            {/* Stat Card 2 */}
+            <div className="min-w-[280px] snap-center p-8 rounded-[2.5rem] bg-muted/30 border border-muted space-y-4 shrink-0 shadow-[0_8px_30px_rgb(0,0,0,0.04)]">
+              <span className="text-5xl font-black text-foreground font-heading">99.9%</span>
+              <p className="font-bold text-xl font-heading text-gray-800">Bacteria Free</p>
+              <p className="text-sm text-muted-foreground leading-relaxed">Lab tested sanitation standards.</p>
+            </div>
+
+            {/* Feature Cards */}
+            {features.map((f, i) => (
+              <div 
+                key={i}
+                className="min-w-[280px] snap-center p-8 rounded-[2.5rem] bg-white border border-muted shrink-0 shadow-[0_8px_30px_rgb(0,0,0,0.04)]"
+              >
+                <div className={cn("w-14 h-14 rounded-3xl flex items-center justify-center mb-6 shadow-sm", f.bg, f.color)}>
+                  <f.icon className="w-8 h-8" />
+                </div>
+                <h3 className="text-xl font-bold mb-3 font-heading text-gray-800">{f.title}</h3>
+                <p className="text-sm text-muted-foreground leading-relaxed">
+                  {f.desc}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
       </div>
     </section>
   );
